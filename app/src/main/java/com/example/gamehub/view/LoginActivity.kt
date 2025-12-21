@@ -204,7 +204,7 @@ fun LoginScreen() {
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = "Enter your credentials to access your gear.",
+                    text = "Enter your credentials to access gears.",
                     fontSize = 14.sp,
                     color = Color.White.copy(alpha = 0.5f)
                 )
@@ -230,7 +230,7 @@ fun LoginScreen() {
                         modifier = Modifier.fillMaxWidth(),
                         placeholder = {
                             Text(
-                                text = "name@example.com",
+                                text = "sadip@example.com",
                                 color = Color.White.copy(alpha = 0.3f)
                             )
                         },
@@ -314,8 +314,8 @@ fun LoginScreen() {
                         fontWeight = FontWeight.Medium,
                         color = Color.White.copy(alpha = 0.6f),
                         modifier = Modifier.clickable {
-                            //val intent = Intent(context, ForgotPasswordActivity::class.java)
-                           // context.startActivity(intent)
+                            val intent = Intent(context, ForgotPasswordActivity::class.java)
+                            context.startActivity(intent)
                         }
                     )
                 }
