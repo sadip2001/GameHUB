@@ -3,6 +3,7 @@ package com.example.gamehub.view
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -40,6 +41,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.gamehub.repository.UserRepoImplementation
+import com.example.gamehub.viewModel.UserViewModel
 
 class ForgotPasswordActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +64,7 @@ fun ForgotPasswordScreen() {
     val context = LocalContext.current
     val activity = context as? Activity
 
-    //val userViewModel = UserViewModel(UserRepoImplementation())
+    val userViewModel = UserViewModel(UserRepoImplementation())
 
     Box(
         modifier = Modifier
@@ -176,17 +179,14 @@ fun ForgotPasswordScreen() {
             // Send Reset Link Button
             Button(
                 onClick = {
-                    /*
                     userViewModel.forgetPassword(email) { success, message ->
-                        if (success) {
+                        if(success){
                             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                             activity?.finish()
-                        } else {
+                        }else{
                             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                         }
                     }
-
-                     */
                 },
                 modifier = Modifier
                     .fillMaxWidth()

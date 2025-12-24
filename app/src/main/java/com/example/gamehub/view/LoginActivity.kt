@@ -3,6 +3,7 @@ package com.example.gamehub.view
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -54,9 +55,11 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.gamehub.repository.UserRepoImplementation
 import com.example.gamehub.view.ui.theme.BackgroundDark
 import com.example.gamehub.view.ui.theme.GameHubTheme
 import com.example.gamehub.view.ui.theme.PrimaryColor
+import com.example.gamehub.viewModel.UserViewModel
 
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,6 +79,8 @@ fun LoginScreen() {
 
     val context = LocalContext.current
     val activity = context as? Activity
+
+    val userViewModel = UserViewModel(UserRepoImplementation())
 
 
     Box(
@@ -325,6 +330,18 @@ fun LoginScreen() {
                 // Login Button
                 Button(
                     onClick = {
+                        userViewModel.login(email, password) { success, message ->
+                            if(success) {
+                                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                                val intent = Intent(
+                                    context,
+                                    DashboardActivity::class.java
+                                )
+                                context.startActivity(intent)
+                            }else{
+                                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                            }
+                        }
 
                     },
                     modifier = Modifier

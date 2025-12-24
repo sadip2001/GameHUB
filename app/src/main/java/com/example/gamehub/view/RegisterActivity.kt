@@ -1,8 +1,8 @@
 package com.example.gamehub.view
 
-
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -69,7 +69,10 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.gamehub.model.UserModel
+import com.example.gamehub.repository.UserRepoImplementation
 import com.example.gamehub.view.ui.theme.GameHubTheme
+import com.example.gamehub.viewModel.UserViewModel
 
 class RegisterActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,10 +88,6 @@ class RegisterActivity : ComponentActivity() {
     }
 }
 
-
-
-
-
 @Composable
 fun RegisterScreen() {
     var fullName by remember { mutableStateOf("") }
@@ -101,7 +100,7 @@ fun RegisterScreen() {
     val context = LocalContext.current
     val activity = context as? Activity
 
-    //val userViewModel = UserViewModel(UserRepoImplementation())
+    val userViewModel = UserViewModel(UserRepoImplementation())
 
     Box(
         modifier = Modifier
@@ -315,19 +314,29 @@ fun RegisterScreen() {
                 Button(
                     onClick = {
                         if (password == confirmPassword) {
-                          /*
-                            userViewModel.register(fullName, email, password) { success, message ->
-                                if (success) {
-                                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-                                    val intent = Intent(context, LoginActivity::class.java)
-                                    context.startActivity(intent)
-                                    activity?.finish()
-                                } else {
+                            userViewModel.register(email, password) { success, message, userId ->
+                                if(success){
+                                    val user = UserModel(
+                                        id = userId,
+                                        fullName = fullName,
+                                        email = email,
+                                        phone = "",
+                                        dp = ""
+                                    )
+
+                                    userViewModel.addUserToDatabase(userId, user) { success, message ->
+                                        if(success) {
+                                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                                            activity?.finish()
+                                        }else{
+                                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
+
+                                }else{
                                     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                                 }
                             }
-
-                           */
                         } else {
                             Toast.makeText(context, "Passwords do not match", Toast.LENGTH_SHORT).show()
                         }

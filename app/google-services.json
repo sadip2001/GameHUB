@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "816502074599",
+    "firebase_url": "https://gamehub-17496-default-rtdb.firebaseio.com",
+    "project_id": "gamehub-17496",
+    "storage_bucket": "gamehub-17496.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:816502074599:android:807c7748511eaa6bbb0642",
+        "android_client_info": {
+          "package_name": "com.example.gamehub"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvFv9jgyW8H_bZeaUJc2rpJkUvdqkxya4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
