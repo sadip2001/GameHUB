@@ -8,19 +8,33 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronLeft
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.gamehub.R
+
 
 class DashboardActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,44 +46,61 @@ class DashboardActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardBody() {
+fun DashboardBody(){
     val context = LocalContext.current
-    val activity = context as? Activity
+    val activity = context as Activity
 
-    Text(
-        text = "Dashboard",
-        color = Color.Black
-    )
-    IconButton(
-        onClick = {
-            val intent = Intent(context, LoginActivity::class.java)
-            context.startActivity(intent)
-            activity?.finish()
-        },
-        modifier = Modifier
-            .size(40.dp)
-            .background(
-                color = Color.White.copy(alpha = 0.05f),
-                shape = CircleShape
-            )
-            .border(
-                width = 1.dp,
-                color = Color.Black.copy(alpha = 0.1f),
-                shape = CircleShape
-            )
-    ) {
-        Icon(
-            imageVector = Icons.Default.ChevronLeft,
-            contentDescription = "Back",
-            tint = Color.Black
+    data class NavItem(val label:String,val icon:Int)
+
+    var selectedIndex by remember { mutableStateOf(0) }
+
+    val listItems = listOf(
+        NavItem(label = "Home", R.drawable.baseline_home_24),
+        NavItem(label = "Add", R.drawable.baseline_add_24),
+        NavItem(label = "profile", R.drawable.baseline_person_24),
+
         )
+
+    Scaffold(
+        bottomBar = {
+            NavigationBar {
+                listItems.forEachIndexed { index,item->
+                    NavigationBarItem(
+                        icon = {
+                            Icon(
+                                painter = painterResource(item.icon),
+                                contentDescription = null
+                            )
+                        },
+                        label = {
+                            Text(item.label)
+                        },
+                        onClick = {
+                            selectedIndex = index
+                        },
+                        selected = selectedIndex == index
+                    )
+                }
+            }
+        }
+    ) {padding->
+        Box (
+            modifier = Modifier.fillMaxSize().padding(padding)
+        ){
+            when(selectedIndex){
+                0 -> HomeScreen()
+                1 -> AddProduct(onProductAdded = { selectedIndex = 0 })
+                2 -> ProfileScreen()
+                else -> HomeScreen()
+            }
+        }
     }
-
 }
 
-@Preview(showBackground = true)
-@Composable
-fun DashPreview() {
 
-}
+
+
+
+
