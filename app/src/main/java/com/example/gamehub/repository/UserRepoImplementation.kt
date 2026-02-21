@@ -86,6 +86,7 @@ class UserRepoImplementation : UserRepo {
     ) {
         ref.child(userId).removeValue().addOnCompleteListener {
             if (it.isSuccessful) {
+                
                 callback(true, "Account deleted")
             } else {
                 callback(false, "${it.exception?.message}")
