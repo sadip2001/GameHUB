@@ -48,6 +48,7 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -227,12 +228,14 @@ fun LoginScreen() {
                         color = Color.White.copy(alpha = 0.4f),
                         letterSpacing = 2.sp,
                         modifier = Modifier.padding(start = 4.dp, bottom = 4.dp)
+
+
                     )
 
                     OutlinedTextField(
                         value = email,
                         onValueChange = { data -> email = data },
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth().testTag("emailField"),
                         placeholder = {
                             Text(
                                 text = "sadip@example.com",
@@ -275,7 +278,7 @@ fun LoginScreen() {
                     OutlinedTextField(
                         value = password,
                         onValueChange = { password = it },
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth().testTag("passwordField"),
                         placeholder = {
                             Text(
                                 text = "••••••••",
@@ -322,6 +325,7 @@ fun LoginScreen() {
                             val intent = Intent(context, ForgotPasswordActivity::class.java)
                             context.startActivity(intent)
                         }
+                            .testTag("ForgotPassword")
                     )
                 }
 
@@ -338,6 +342,7 @@ fun LoginScreen() {
                                     DashboardActivity::class.java
                                 )
                                 context.startActivity(intent)
+                                activity?.finish()
                             }else{
                                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                             }
@@ -352,7 +357,8 @@ fun LoginScreen() {
                             shape = RoundedCornerShape(12.dp),
                             ambientColor = PrimaryColor.copy(alpha = 0.2f),
                             spotColor = PrimaryColor.copy(alpha = 0.2f)
-                        ),
+                        )
+                        .testTag("LoginButton"),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = PrimaryColor,
                         contentColor = Color.White
@@ -387,6 +393,7 @@ fun LoginScreen() {
                             val intent = Intent(context, RegisterActivity::class.java)
                             context.startActivity(intent)
                         }
+                            .testTag("Register")
                     )
                 }
             }
